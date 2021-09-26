@@ -60,8 +60,7 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
   const { id } = request.params
-  console.log(id)
-
+  // console.log(id)
   const { user } = request
 
   const todo = user.todos.find((todo) => todo.id === id )
@@ -76,8 +75,19 @@ app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
   return response.json(user)
 });
 
-app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+app.patch('/todos/:id/:done', checksExistsUserAccount, (request, response) => {
+  const { id, done } = request.params
+  // console.log(id)
+  const { user } = request
+
+  const todo = user.todos.find((todo) => todo.id === id )
+  if (!todo) {
+    return response.status(400).json({ error: 'Todo not found'})
+  }
+
+  todo.done = done
+  
+  return response.json(user)
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
