@@ -12,7 +12,7 @@ const users = [];
 function checksExistsUserAccount(request, response, next) {
   const { username } = request.headers
   const user = users.find((user) => user.username === username)
-  console.log(user)
+  // console.log(user)
   
   if (!user) {
     return response.status(400).json({ error: 'User not found'})
@@ -30,7 +30,7 @@ app.post('/users', (request, response) => {
       username, 
       todos: []
   })
-  console.log('users')
+  // console.log('users')
   return response.status(201).send()
 });
 
@@ -41,7 +41,20 @@ app.get('/todos', checksExistsUserAccount, (request, response) => {
 });
 
 app.post('/todos', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const { title, deadline } = request.body
+
+  const { user } = request
+
+  const newTodo = {
+    title,
+    deadline: new Date(deadline),
+    done: false,
+    create_at: new Date()
+  }
+
+  user.todos.push(newTodo)
+  console.log(user.todos)
+  return response.status(201).send()
 });
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
