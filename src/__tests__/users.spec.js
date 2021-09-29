@@ -1,5 +1,5 @@
 const request = require('supertest');
-const { validate } = require('uuid');
+const { validate } = require('uuid')
 
 const app = require('../');
 
@@ -13,9 +13,9 @@ describe('Users', () => {
       })
     expect(201);
 
-    expect(validate(response.body.id)).toBe(true);
+    expect(validate(response.body[0].id)).toBe(true);
 
-    expect(response.body).toMatchObject({
+    expect(response.body[0]).toMatchObject({
       name: 'John Doe',
       username: 'johndoe',
       todos: []
